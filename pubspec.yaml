@@ -1,0 +1,56 @@
+name: crypto_app
+description: A new Flutter project.
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.6 <3.0.0"
+dependencies:
+  cached_network_image: ^3.2.3
+  candlestick_digiasset: ^0.0.7
+  carousel_slider: ^4.2.1
+  cupertino_icons: ^1.0.2
+  dio: ^4.0.6
+  fl_chart: ^0.55.2
+  flutter:
+    sdk: flutter
+  flutter_dotenv: ^5.0.2
+  flutter_screenutil: ^5.6.0
+  flutter_svg_provider: ^1.0.3
+  get: ^4.6.5
+  http: ^0.13.5
+  intl: ^0.17.0
+  k_chart: ^0.7.0
+  logging: ^1.1.0
+  scaffold_gradient_background: ^1.0.3+1
+  shared_preferences: ^2.0.17
+  shimmer: ^2.0.0
+  web_socket_channel: ^2.3.0
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/image/
+    - assets/icon/
+    - .env
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/font/poppin/Poppins-Bold.ttf
+        - asset: assets/font/poppin/Poppins-SemiBold.ttf
+        - asset: assets/font/poppin/Poppins-Medium.ttf
+        - asset: assets/font/poppin/Poppins-Regular.ttf
+        - asset: assets/font/poppin/Poppins-Light.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/font/roboto/Roboto-Bold.ttf
+        - asset: assets/font/roboto/Roboto-Medium.ttf
+        - asset: assets/font/roboto/Roboto-Regular.ttf
+        - asset: assets/font/roboto/Roboto-Light.ttf
