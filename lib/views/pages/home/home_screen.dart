@@ -4,6 +4,7 @@ import 'package:crypto_app/utils/utils.dart';
 import 'package:crypto_app/views/pages/home/component/list_market.dart';
 import 'package:crypto_app/views/pages/home/component/news.dart';
 import 'package:crypto_app/views/pages/home/component/slider_market.dart';
+import 'package:crypto_app/views/pages/search/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -48,10 +49,15 @@ class HomeScreen extends StatelessWidget {
                             AppFont.semibold16.copyWith(color: AppColor.white),
                       ),
                       const Spacer(),
-                      Icon(
-                        Icons.search,
-                        color: Colors.white,
-                        size: 20.h,
+                      GestureDetector(
+                        onTap: () {
+                          Get.to(()=>const SearchPage());
+                        },
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                          size: 20.h,
+                        ),
                       ),
                       16.0.width,
                       Icon(
