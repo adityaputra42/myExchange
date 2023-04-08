@@ -1,5 +1,6 @@
 import 'package:crypto_app/config/config.dart';
 import 'package:crypto_app/data/data.dart';
+import 'package:crypto_app/domain/controller/search_contoller.dart';
 import 'package:crypto_app/utils/utils.dart';
 import 'package:crypto_app/views/pages/home/component/list_market.dart';
 import 'package:crypto_app/views/pages/home/component/news.dart';
@@ -51,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          Get.to(()=>const SearchPage());
+                          Get.to(()=> SearchPage())!.then((value) => Get.delete<SearchController>(),);
                         },
                         child: Icon(
                           Icons.search,
