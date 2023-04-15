@@ -15,7 +15,7 @@ class DepthChartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 260.h,
+      height: MediaQuery.of(context).size.height*0.33,
       width: double.infinity,
       padding: EdgeInsets.all(AppDimension.h8),
       decoration: BoxDecoration(

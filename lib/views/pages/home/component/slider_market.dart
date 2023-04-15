@@ -33,12 +33,12 @@ class SliderMarket extends StatelessWidget {
         },
         child: Container(
           height: 130.h,
-          width: 180.w,
-          padding: EdgeInsets.all(8.w),
+          width: MediaQuery.of(context).size.width*0.29,
+          padding: EdgeInsets.all(6.h),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(10.r),
               boxShadow: const [
-                BoxShadow(spreadRadius: 1, blurRadius: 1, color: Colors.white12)
+                BoxShadow(spreadRadius: 0.7, blurRadius: 0.5,offset: Offset(0.5, 0.5), color: Colors.white10)
               ],
               color: const Color(0xff282831)),
           child: Column(
@@ -47,9 +47,9 @@ class SliderMarket extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    width: 32.w,
-                    height: 32.w,
-                    padding: EdgeInsets.all(2.h),
+                    width: 26.h,
+                    height: 26.h,
+                    // padding: EdgeInsets.all(1.5.h),
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: AppColor.white),
                     child: (market.iconUrl != null)
@@ -62,16 +62,16 @@ class SliderMarket extends StatelessWidget {
                                     market.iconUrl!)))
                         : Image.asset(AppImage.btc),
                   ),
-                  8.0.width,
+                  6.0.width,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(market.name!.toUpperCase(),
                           style:
-                              AppFont.medium12.copyWith(color: AppColor.white)),
-                      Text(market.currencyName!.toUpperCase(),
+                              AppFont.medium10.copyWith(color: AppColor.white)),
+                      Text(market.currencyName!.capitalize!,
                           style: AppFont.reguler10
-                              .copyWith(color: AppColor.darkerGray)),
+                              .copyWith(color: AppColor.darkerGray, fontSize: 9.sp)),
                     ],
                   ),
                 ],
@@ -126,10 +126,10 @@ class SliderMarket extends StatelessWidget {
                 children: [
                   Text(
                       "\$${NumberFormat.currency(locale: "en_US", decimalDigits: market.pricePrecision!, symbol: '').format(market.last)}",
-                      style: AppFont.medium12.copyWith(
+                      style: AppFont.medium10.copyWith(
                           fontFamily: "Roboto", color: AppColor.white)),
                   Text(market.priceChangePercent!,
-                      style: AppFont.medium12.copyWith(
+                      style: AppFont.medium10.copyWith(
                         fontFamily: "Roboto",
                         color: (market.priceChangePercent!).contains('+')
                             ? AppColor.greenBuy
@@ -153,44 +153,46 @@ class SliderMarket extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12.r),
                 child: Shimmer.fromColors(
-                  baseColor: AppColor.gray,
+                  baseColor: AppColor.darkerGray,
                   highlightColor: AppColor.white,
                   child: Container(
-                    height: 132.h,
-                    width: 109.w,
-                    color: AppColor.gray,
+                     height: 130.h,
+          width: MediaQuery.of(context).size.width*0.29,
+                    color: AppColor.darkerGray,
                   ),
                 ),
               ),
             ),
+            
             Flexible(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12.r),
                 child: Shimmer.fromColors(
-                  baseColor: AppColor.gray,
+                  baseColor: AppColor.darkerGray,
                   highlightColor: AppColor.white,
                   child: Container(
-                    height: 132.h,
-                    width: 109.w,
-                    color: AppColor.gray,
+                           height: 130.h,
+          width: MediaQuery.of(context).size.width*0.29,
+                    color: AppColor.darkerGray,
                   ),
                 ),
               ),
             ),
-            Flexible(
+           Flexible(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12.r),
                 child: Shimmer.fromColors(
-                  baseColor: AppColor.gray,
+                  baseColor: AppColor.darkerGray,
                   highlightColor: AppColor.white,
                   child: Container(
-                    height: 132.h,
-                    width: 109.w,
-                    color: AppColor.gray,
+                          height: 130.h,
+          width: MediaQuery.of(context).size.width*0.29,
+                    color: AppColor.darkerGray,
                   ),
                 ),
               ),
             ),
+           
           ],
         ),
       );
@@ -200,15 +202,35 @@ class SliderMarket extends StatelessWidget {
       return (controller.isLoading.value)
           ? shimmerLoading()
           : CarouselSlider(
-              items: controller.formatedMarketsList
-                  .map((e) => cardSlider(e))
-                  .toList()
-                  .sublist(0, 6)
-                  .toList(),
+              items: [
+                Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 1.h),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: controller.formatedMarketsList
+                    .map((e) => cardSlider(e))
+                    .toList()
+                    .sublist(0, 3)
+                    .toList(),),
+              ),
+                Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 1.h),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: controller.formatedMarketsList
+                    .map((e) => cardSlider(e))
+                    .toList()
+                    .sublist(3, 6)
+                    .toList(),),
+              ),Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w,vertical: 1.h),
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: controller.formatedMarketsList
+                    .map((e) => cardSlider(e))
+                    .toList()
+                    .sublist(6, 9)
+                    .toList(),),
+              )
+              ],
               options: CarouselOptions(
                 aspectRatio: 1 / 1,
-                height: 134.h,
-                viewportFraction: 0.48,
+                height: 132.h,
+                viewportFraction: 1,
                 autoPlayInterval: const Duration(seconds: 6),
                 autoPlayAnimationDuration: const Duration(milliseconds: 1500),
                 enlargeCenterPage: true,

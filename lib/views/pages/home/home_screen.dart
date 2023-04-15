@@ -75,37 +75,42 @@ class HomeScreen extends StatelessWidget {
                         News(
                           controller: controller,
                         ),
-                        const Menu(),
-                        16.0.height,
-                        Expanded(
-                          child: Container(
-                            // margin: const EdgeInsets.only(top: 40),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(16.r),
-                                    topRight: Radius.circular(16.r)),
-                                color: const Color(0xff1D1B23)),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  24.0.height,
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 16.w, bottom: 16.h),
-                                    child: Text('Favorite Market',
-                                        style: AppFont.medium14.copyWith(
-                                            color: AppColor.white,
-                                            fontStyle: FontStyle.normal)),
-                                  ),
-                                  SliderMarket(
-                                    controller: controller,
-                                  ),
-                                  16.0.height,
-                                  ListMarket(
-                                    controller: controller,
-                                  )
-                                ]),
-                          ),
+                       
+                        Stack(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                margin:  EdgeInsets.only(top: 40.h),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(16.r),
+                                        topRight: Radius.circular(16.r)),
+                                    color: const Color(0xff1D1B23)),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      54.0.height, 
+                          
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: 16.w, bottom: 8.h),
+                                        child: Text('Favorite Market',
+                                            style: AppFont.medium14.copyWith(
+                                                color: AppColor.white,
+                                                fontStyle: FontStyle.normal)),
+                                      ),
+                                      SliderMarket(
+                                        controller: controller,
+                                      ),
+                                      16.0.height,
+                                      ListMarket(
+                                        controller: controller,
+                                      )
+                                    ]),
+                              ),
+                            ),
+                            const Menu(),
+                          ],
                         ),
                       ],
                     ),

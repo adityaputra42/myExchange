@@ -78,8 +78,10 @@ class ListMarket extends StatelessWidget {
                                     decimalDigits: market.pricePrecision)
                                 .format(market.last),
                             style: AppFont.medium14.copyWith(
-                              color: AppColor.white,
-                            )),
+                              color: (market.priceChangePercent ?? "").contains('+')
+                              ? AppColor.greenBuy
+                              : AppColor.redSell),
+                            ),
                         1.0.height,
                         Text(
                           "Vol24H : ${NumberFormat.compact(

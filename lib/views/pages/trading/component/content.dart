@@ -16,7 +16,7 @@ class Content extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       // padding: EdgeInsets.symmetric(vertical: AppDimension.),
-      height: MediaQuery.of(context).size.height.h - 244.h,
+      height: MediaQuery.of(context).size.height-178,
       child: Obx(() {
         return DefaultTabController(
           length: 2,
