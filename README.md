@@ -1,16 +1,34 @@
 # crypto_app
 
-A new Flutter project.
 
-## Getting Started
+Exchange market place crypto app
 
-This project is a starting point for a Flutter application.
+This app uses Getx State Management ✔️
+Realtime data use websocket ✔️
+Null Safety ✔️
 
-A few resources to get you started if this is your first Flutter project:
+## Platform
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+ios ✔️
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+android ✔️
+
+## Preview
+
+<!-- ![Tix Movie](assets/tixmovie.gif) -->
+
+<!-- <table>
+  <tr>
+    <th><img src="assets/ss1.png" width="360px" height="680px"/></th>
+    <th><img src="assets/ss2.png" width="360px" height="680px"/></th>
+    <th><img src="assets/ss3.png" width="360px" height="680px"/></th>
+  </tr>
+
+</table> -->
+
+## Development Setup
+
+Clone the repository and run the following commands:
+
+    flutter pub get
+    flutter run

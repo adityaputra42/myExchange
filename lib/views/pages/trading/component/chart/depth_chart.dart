@@ -1,8 +1,6 @@
 import 'package:crypto_app/domain/controller/controller.dart';
 import 'package:crypto_app/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:k_chart/flutter_k_chart.dart';

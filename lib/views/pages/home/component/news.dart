@@ -22,7 +22,7 @@ class News extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: AppDimension.w2),
           decoration: BoxDecoration(
               color: controller.currentIndex.value == index
-                  ? AppColor.greenBuy
+                  ? AppColor.secondaryColor
                   : AppColor.softGreen,
               borderRadius: BorderRadius.circular(AppDimension.h4)),
         );

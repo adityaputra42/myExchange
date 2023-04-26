@@ -6,6 +6,6 @@ class AppImage {
   static const String btc = 'assets/image/btc_logo.png';
   static const String logo = 'assets/image/logo.png';
   static const String bg = 'assets/image/bg.png';
-  static const String homeBg = 'assets/image/home_bg.png';
+  static const String homeBg = 'assets/image/bg_home.png';
   static const String empty = 'assets/image/emty.png';
 }
