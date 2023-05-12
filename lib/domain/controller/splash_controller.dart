@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:crypto_app/views/pages/home/home_screen.dart';
-import 'package:crypto_app/views/pages/main_page.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController {
@@ -16,6 +15,6 @@ class SplashController extends GetxController {
   }
 
   void isNewUser() async {
-    Get.to (MainPage());
+    Get.to (HomeScreen());
   }
 }

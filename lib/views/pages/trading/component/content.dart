@@ -66,7 +66,7 @@ class Content extends StatelessWidget {
               ),
               controller.selectedIndex.value == 0
                   ? OrderBook(
-                      controller: homeController,
+                      controller: homeController,tradingController: controller,
                     )
                   : Chart(
                       controller: controller,

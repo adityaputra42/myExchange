@@ -42,9 +42,9 @@ final HomeController homeController = Get.find();
                         height: 36.w,
                         width: 36.w,
                         margin: EdgeInsets.only(right: 8.w),
-                        padding: EdgeInsets.all(4.h),
+                        // padding: EdgeInsets.all(4.h),
                         decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: AppColor.white),
+                            shape: BoxShape.circle, color: AppColor.secondaryColor),
                         child: (market.iconUrl != null)
                             ? (market.iconUrl!.contains('.svg')
                                 ? Image(
@@ -54,7 +54,7 @@ final HomeController homeController = Get.find();
                                     image: CachedNetworkImageProvider(
                                         market.iconUrl!)))
                             : Image.asset(AppImage.btc)),
-              8.0.width,
+             
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,15 +5,16 @@ import 'package:crypto_app/views/pages/trading/component/wall/wall.dart';
 import 'package:flutter/cupertino.dart';
 
 class OrderBook extends StatelessWidget {
-  const OrderBook({super.key, required this.controller});
+  const OrderBook({super.key, required this.controller, required this.tradingController});
   final HomeController controller;
+  final TradingController tradingController;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Wall(
-          controller: controller,
+          controller: controller,tradingController: tradingController,
         ),
         12.0.height,
         TransactionInput(),

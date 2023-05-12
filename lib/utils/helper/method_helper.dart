@@ -21,10 +21,7 @@ class MethodHelper {
     );
   }
 
-  double roundDouble(double value, int places) {
-    num mod = pow(10.0, places);
-    return ((value * mod).floor().toDouble() / mod);
-  }
+  
 
   static List<dynamic> accumulateVolume(List<dynamic> list) {
     List<dynamic> total = [];
@@ -58,4 +55,13 @@ class MethodHelper {
 
     return resultData;
   }
+    static String convertToNumber(String formattedNumber) {
+    String number = formattedNumber.replaceAll(',', '');
+
+    return number;
+  }
 }
+double roundDouble(double value, int places) {
+    num mod = pow(10.0, places);
+    return ((value * mod).floor().toDouble() / mod);
+  }

@@ -6,6 +6,7 @@ import 'package:crypto_app/data/data.dart';
 import 'package:crypto_app/domain/controller/controller.dart';
 import 'package:crypto_app/utils/helper/helper.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:k_chart/flutter_k_chart.dart';
@@ -36,7 +37,7 @@ List<Candle> generateCandle(List<List<double>> data) {
         close: double.parse(newObj['close'].toString()),
         volume: double.parse(newObj['vol'].toString())));
 
-    print("ISOLATE DONE..");
+  
   }
 
   return candles;
@@ -94,49 +95,7 @@ class TradingController extends GetxController {
     },
   ].obs;
   var dropdownShown = false.obs;
-  // var states = [
-  //   // {"type": "line", "name": "Line", "isActive": false},
-  //   // {"type": "space", "name": "|", "isActive": false},
-  //   {"type": "main", "name": "MA", "state": MainState.MA, "isActive": false},
-  //   {
-  //     "type": "main",
-  //     "name": "BOLL",
-  //     "state": MainState.BOLL,
-  //     "isActive": false
-  //   },
-  //   {"type": "space", "name": "|", "isActive": false},
-  //   {
-  //     "type": "secondry",
-  //     "name": "MACD",
-  //     "state": SecondaryState.MACD,
-  //     "isActive": false
-  //   },
-  //   {
-  //     "type": "secondry",
-  //     "name": "RSI",
-  //     "state": SecondaryState.RSI,
-  //     "isActive": false
-  //   },
-  //   {
-  //     "type": "secondry",
-  //     "name": "WR",
-  //     "state": SecondaryState.WR,
-  //     "isActive": false
-  //   },
-  //   {
-  //     "type": "secondry",
-  //     "name": "KDJ",
-  //     "state": SecondaryState.KDJ,
-  //     "isActive": false
-  //   },
-  //   {"type": "space", "name": "|", "isActive": false},
-  //   {"type": "vol", "name": "Vol", "isActive": false},
-  // ].obs;
-  // var secondryStates = [
-  //   {"name": "MACD", "state": SecondaryState.MACD},
-  //   {"name": "RSI", "state": SecondaryState.RSI},
-  //   {"name": "KDJ", "state": SecondaryState.KDJ},
-  // ].obs;
+ 
   var market = FormatedMarket().obs;
   HomeController homeController = Get.find();
   var selectedIndex = 0.obs;
@@ -155,9 +114,22 @@ class TradingController extends GetxController {
   var isHistoryTradeLoading = false.obs;
   var bidsData = <DepthEntity>[].obs;
   var asksData = <DepthEntity>[].obs;
-  RxList<TradesModel> historyTrade = <TradesModel>[].obs;
+ var historyTrade = <TradesModel>[].obs;
   var fecthingTradeLoading = false.obs;
   var duration = 1.obs;
+  var priceController = TextEditingController();
+  var amountController = TextEditingController();
+  var sliderBuy =0.0.obs;
+  var sliderSell = 0.0.obs;
+  var balanceBase = 12.564.obs;
+  var balanceQuote = 120.0.obs;
+  var totalPrice = 0.0.obs;
+
+
+
+
+
+
   @override
   void onInit() async {
     market = homeController.selectedMarket;
@@ -177,7 +149,7 @@ class TradingController extends GetxController {
     getKlineDataFromWS();
 
     await Websocket.instance.subscribeOrderBookInc(market.value);
-    print("subcribe ob");
+   
     getOrderBookDataFromWS();
     super.onReady();
   }
@@ -257,38 +229,6 @@ class TradingController extends GetxController {
     onReady();
   }
 
-  void generateKline(List<List<double>> data) {
-    var keys = ['time', 'open', 'high', 'low', 'close', 'vol'];
-    for (var i = 0; i < data.length; i++) {
-      Map<String, dynamic> newObj = {};
-
-      for (var j = 0; j < keys.length; j++) {
-        newObj.addAll({keys[j]: data[i][j]});
-      }
-      int? tempTime = newObj['time']?.toInt() * 1000;
-      if (tempTime == null) {
-        tempTime = newObj['id']?.toInt() ?? 0;
-        tempTime = tempTime! * 1000;
-      }
-
-      candles.add(Candle(
-          date: DateTime.fromMillisecondsSinceEpoch(tempTime),
-          high: double.parse(newObj['high'].toString()),
-          low: double.parse(newObj['low'].toString()),
-          open: double.parse(newObj['open'].toString()),
-          close: double.parse(newObj['close'].toString()),
-          volume: double.parse(newObj['vol'].toString())));
-      // }
-
-      print("ISOLATE DONE..");
-
-      candles.refresh();
-
-      isKLineLoading(false);
-      // lineController.jumpTo(lineController.position.maxScrollExtent);
-    }
-  }
-
   Future<void> getKlineData() async {
     MarketRepository marketRepository = MarketRepository();
     try {
@@ -311,16 +251,12 @@ class TradingController extends GetxController {
       candles.refresh();
 
       isKLineLoading(false);
-      // generateKline(data);
-
-      // if (candles.isNotEmpty) {
-      //   isolate.kill(priority: Isolate.immediate);
-      // }
+      
       isKLineLoading(false);
     } catch (error) {
       isKLineLoading(false);
 
-      // errorController.handleError(error);
+
     }
   }
 
@@ -337,8 +273,7 @@ class TradingController extends GetxController {
             (item) => DepthEntity(double.parse(item[0]), double.parse(item[1])))
         .toList()
         .cast<DepthEntity>();
-    // print("bids : $bids");
-    // print("ask : $asks");
+    
     initDepth(bids, asks);
     bidsData.refresh();
     asksData.refresh();
@@ -371,9 +306,7 @@ class TradingController extends GetxController {
           .containsKey('${market.value.id}.kline-${selectedOption['key']}')) {
         var keys = ['time', 'open', 'high', 'low', 'close', 'vol'];
         Map<String, dynamic> newObj = {};
-        // KLineEntity klineObj;
-        // CandleData candleObj;
-        // FlSpot flSpot;
+       
         for (var i = 0; i < keys.length; i++) {
           var kLineEntry =
               data['${market.value.id}.kline-${selectedOption['key']}'][i];
@@ -386,32 +319,10 @@ class TradingController extends GetxController {
           tempTime = tempTime! * 1000;
         }
 
-        // candleObj = CandleData(
-        //   timestamp: tempTime,
-        //   open: newObj['open'],
-        //   close: newObj["close"],
-        //   volume: newObj['vol'],
-        //   high: newObj['high'],
-        //   low: newObj['low'],
-        // );
-        // flSpot = FlSpot(
-        //   tempTime.toDouble(),
-        //   newObj['high'],
-        // );
-        // formatedKLine.add(candleObj);
-        // formatedline.add(flSpot);
-        // formatedKLine.refresh();
-        // formatedline.refresh();
-        // klineObj = KLineEntity.fromJson(newObj);
-        // formatedKLineData.add(klineObj);
-
         DateTime date = DateTime.fromMillisecondsSinceEpoch(tempTime);
         var candleDate = DateFormat("dd MM yyyy H:mm").format(date);
         var dateNow = DateFormat("dd MM yyyy H:mm").format(DateTime.now());
-        // print("CANDLE DATE : $candleDate");
-        // print("NOW DATE : $dateNow");
-        // print("CANDLE DATE == NOW DATE ? ${candleDate == dateNow}");
-
+       
         if (candleDate == dateNow) {
           if (isCandleAdd.isFalse) {
             candles.add(Candle(
@@ -539,6 +450,122 @@ class TradingController extends GetxController {
     });
   }
 
+  void onPriceChange(String value) {
+    calculateTotalPrice();
+    
+    
+  }
+  void onAmountChange(String value) {
+    calculateTotalPrice();
+    
+  }
+
+  void setSliderPercent(
+      {required double value }) {
+   
+      if (selectedBuySell.value == 0) {
+        sliderBuy.value = value;
+        if (priceController.text != '') {
+          double jumlahAmount = ((sliderBuy.value *
+             roundDouble(
+                          balanceQuote.value , market.value.pricePrecision??0)) /
+                  100) /
+              double.parse(MethodHelper.convertToNumber(
+                  priceController.text));
+         
+          amountController.text = jumlahAmount == 0
+              ? ""
+              : NumberFormat.currency(
+                      locale: 'en_US',
+                      decimalDigits: market.value.amountPrecision??0,
+                      symbol: '')
+                  .format(double.parse(
+                      jumlahAmount.toStringAsFixed(market.value.amountPrecision??0)));
+
+          calculateTotalPrice();
+        }
+      } else {
+        sliderSell.value = value;
+      
+        double jumlahAmount = ((sliderSell.value *
+                roundDouble(balanceBase.value, market.value.amountPrecision??0)) /
+            100);
+
+      amountController.text = jumlahAmount == 0
+            ? ""
+            : NumberFormat.currency(
+                    locale: 'en_US',
+                    decimalDigits: market.value.amountPrecision,
+                    symbol: '')
+                .format(
+                    double.parse(jumlahAmount.toStringAsFixed(market.value.amountPrecision??0)));
+        calculateTotalPrice();
+        
+      }
+    } 
+  
+ void setBidFormPrice(List<dynamic> bid) {
+    priceController.text = bid[0];
+    onPriceChange(priceController.text);
+  
+  }
+
+    void setAskFormPrice(List<dynamic> ask) {
+     priceController.text = ask[0];
+    onPriceChange(priceController.text);
+  }
+  // void calculateLimitOrderBuyAmount() {
+  //   if (limitOrderBuyPriceTextController.text != '' &&
+  //       limitOrderBuyTotalTextController.text != '') {
+  //     double buyPrice = double.parse(CurrencyHelper.convertToNumber(
+  //         limitOrderBuyPriceTextController.text));
+  //     double buyTotal = double.parse(CurrencyHelper.convertToNumber(
+  //         limitOrderBuyTotalTextController.text));
+  //     double buyAmount = buyTotal / buyPrice;
+
+  //     limitOrderBuyAmountTextController.text = NumberFormat.currency(
+  //             locale: 'id_ID',
+  //             decimalDigits: market.value.amountPrecision,
+  //             symbol: '')
+  //         .format(buyAmount);
+  //   } else {
+  //     limitOrderBuyAmountTextController.text = '';
+  //   }
+  // }
+
+  void calculateTotalPrice() {
+    if (priceController.text != '' &&
+        amountController.text != '') {
+      double sellPrice = double.parse(MethodHelper .convertToNumber(
+          priceController.text));
+      double sellAmount = double.parse(MethodHelper.convertToNumber(
+          amountController.text));
+      double sellTotal = sellPrice * sellAmount;
+      totalPrice.value = sellTotal;
+    
+    } else {
+      
+      totalPrice.value = 0;
+    }
+  }
+
+  // void calculateLimitOrderSellAmount() {
+  //   if (limitOrderSellPriceTextController.text != '' &&
+  //       limitOrderSellTotalTextController.text != '') {
+  //     double sellPrice = double.parse(CurrencyHelper.convertToNumber(
+  //         limitOrderSellPriceTextController.text));
+  //     double sellTotal = double.parse(CurrencyHelper.convertToNumber(
+  //         limitOrderSellTotalTextController.text));
+  //     double sellAmount = sellTotal / sellPrice;
+  //     limitOrderSellAmountTextController.text = NumberFormat.currency(
+  //             locale: 'id_ID',
+  //             decimalDigits: market.value.amountPrecision,
+  //             symbol: '')
+  //         .format(sellAmount);
+  //   } else {
+  //     limitOrderSellAmountTextController.text = '';
+  //   }
+  // }
   @override
   void onClose() {
     market.value = FormatedMarket();

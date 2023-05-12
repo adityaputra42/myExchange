@@ -1,19 +1,21 @@
+import 'package:crypto_app/utils/helper/method_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:pattern_formatter/pattern_formatter.dart';
 
 import '../../../../../../../../config/config.dart';
 
 class InputTransaction extends StatelessWidget {
-  final Function() kurangData;
-  final Function() tambahData;
+
   final String hint;
-  final Function(String)? onChanged;
+  final Function(String) onChanged;
   final String? Function(String?)? validate;
   final Function()? onEditingConmplete;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final int? precision;
+
   final Function()? ontap;
   final TextEditingController controller;
 
@@ -21,15 +23,13 @@ class InputTransaction extends StatelessWidget {
       {Key? key,
       required this.controller,
       required this.hint,
-      this.onChanged,
+      required this.onChanged,
       this.validate,
       this.onEditingConmplete,
       this.focusNode,
       this.textInputAction,
       this.ontap,
-      this.precision,
-      required this.kurangData,
-      required this.tambahData})
+      this.precision,})
       : super(key: key);
 
   @override
@@ -38,7 +38,7 @@ class InputTransaction extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         InkWell(
-          onTap: kurangData,
+          onTap:()=> removeValueFromInput(context, precision??0),
           focusColor: AppColor.primaryColor,
           customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.r),
@@ -70,17 +70,20 @@ class InputTransaction extends StatelessWidget {
               focusNode: focusNode,
               textInputAction: textInputAction,
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp('[0-9.,]')),
+             ThousandsFormatter(
+                          allowFraction: true,
+                          formatter: NumberFormat('#,##0.${"#" * precision!}'))
               ],
               controller: controller,
               style: AppFont.reguler12.copyWith(
-                color: Theme.of(context).indicatorColor,
+                color: AppColor.white,
                 fontSize: 13.sp,
                 fontFamily: "Roboto",
+                
               ),
               textAlign: TextAlign.center,
               showCursor: false,
-              cursorColor: Theme.of(context).indicatorColor,
+              cursorColor: AppColor.white,
               textAlignVertical: TextAlignVertical.bottom,
               decoration: InputDecoration(
                 fillColor: const Color(0xff3c3c43),
@@ -110,7 +113,7 @@ class InputTransaction extends StatelessWidget {
           ),
         ),
         InkWell(
-          onTap: tambahData,
+          onTap: ()=> addValueToInput(context, precision??0),
           focusColor: AppColor.primaryColor,
           customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.r),
@@ -131,5 +134,52 @@ class InputTransaction extends StatelessWidget {
         )
       ],
     );
+  }
+
+  
+  void addValueToInput(
+      BuildContext context, int percision) {
+    FocusScope.of(context).unfocus();
+    var number = 1;
+    var decimalPointNumber = number.toString().padRight(percision + 1, '0');
+    var maxNumber = int.parse(decimalPointNumber);
+    var finalNumber = (1 / maxNumber).toStringAsFixed(percision);
+      var existingNumber =
+          controller.text != ''
+              ? double.parse(MethodHelper.convertToNumber(controller.text))
+              : 0.0;
+
+      controller.text =
+          (existingNumber + double.parse(finalNumber))
+              .toStringAsFixed(percision);
+      onChanged(
+          controller.text);
+   
+  }
+
+  void removeValueFromInput(
+      BuildContext context, int percision) {
+    FocusScope.of(context).unfocus();
+    var number = 1;
+    var decimalPointNumber = number.toString().padRight(percision + 1, '0');
+    var maxNumber = int.parse(decimalPointNumber);
+    var finalNumber = (1 / maxNumber).toStringAsFixed(percision);
+  
+      var existingNumber =
+          controller.text != ''
+              ? double.parse(MethodHelper.convertToNumber(controller.text))
+              : 0.0;
+
+      if (existingNumber > 0) {
+        var removedFinalAmount = (existingNumber - double.parse(finalNumber));
+
+        controller.text =
+            removedFinalAmount == 0
+                ? ''
+                : removedFinalAmount.toStringAsFixed(percision);
+       onChanged(
+            controller.text);
+      }
+   
   }
 }

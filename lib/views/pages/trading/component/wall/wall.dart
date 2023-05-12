@@ -8,8 +8,9 @@ import 'package:intl/intl.dart';
 import '../../../../../domain/domain.dart';
 
 class Wall extends StatelessWidget {
-  const Wall({super.key, required this.controller});
+  const Wall({super.key, required this.controller, required this.tradingController});
   final HomeController controller;
+  final TradingController tradingController;
   @override
   Widget build(BuildContext context) {
     Widget cardBuy(
@@ -175,7 +176,10 @@ class Wall extends StatelessWidget {
                           padding: EdgeInsets.only(top: 1.w),
                           child: cardBuy(
                               index: index,
-                              onClick: () {},
+                              onClick: () {
+                              tradingController.setBidFormPrice(
+                                    controller.bids[index]);
+                              },
                               controller: controller,
                               bids: controller.bids[index]),
                         ),
@@ -243,7 +247,9 @@ class Wall extends StatelessWidget {
                             controller: controller,
                             index: index,
                             asks: controller.asks[index],
-                            onClick: () {},
+                            onClick: () {
+                              tradingController.setAskFormPrice(controller.asks[index]);
+                            },
                           ),
                         ),
                         itemCount: controller.asks.length,

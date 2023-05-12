@@ -26,7 +26,7 @@ class DepthChartPage extends StatelessWidget {
         return Stack(
           children: [
             DepthChart(
-                fixedLength: controller.market.value.amountPrecision!,
+                fixedLength: controller.market.value.amountPrecision??0,
                 buyPathColor: AppColor.greenBuy.withOpacity(0.25),
                 sellPathColor: AppColor.redSell.withOpacity(0.25),
                 controller.bidsData,

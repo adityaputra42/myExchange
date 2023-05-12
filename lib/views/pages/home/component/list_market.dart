@@ -36,7 +36,7 @@ class ListMarket extends StatelessWidget {
                       height: 44.w,
                       width: 44.w,
                       margin: EdgeInsets.only(right: 8.w),
-                      padding: EdgeInsets.all(4.h),
+                      // padding: EdgeInsets.all(4.h),
                       decoration: const BoxDecoration(
                           shape: BoxShape.circle, color: AppColor.white),
                       child: (market.iconUrl != null)
